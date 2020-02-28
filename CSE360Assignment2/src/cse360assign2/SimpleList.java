@@ -20,20 +20,39 @@ public class SimpleList {
 
 	private int count;
 	private int list[];
+	private int sizeArray = 10;
 
 	// Constructor to create integer array of size 10 and set count to 0.
 	public SimpleList() {
-		list = new int[10];
+		list = new int[sizeArray];
 		count = 0;
 	}
 
 	/**
-	 * Method to add parameter to array index 0. Shifts indexes to the right by one,
-	 * unless array is full. If full, drops the last integer off.
+	 * Method to add parameter to array index 0. Shifts every index except 0 to the
+	 * right by one. If array full, create new array with 50% bigger size. Increase
+	 * count by 1
 	 * 
 	 * @param numToAdd Integer to add to array
 	 */
+
 	public void add(int numToAdd) {
+
+		int newSize;
+
+		if (count == sizeArray) {
+			newSize = sizeArray + sizeArray / 2;
+
+			// Create array with new Size
+			int[] newList = new int[newSize];
+
+			for (int iterator = 0; iterator < count; iterator++) {
+				newList[iterator] = list[iterator];
+			}
+
+			list = newList;
+		}
+
 		if (count == 0) {
 			list[count] = numToAdd;
 			count++;
@@ -55,11 +74,15 @@ public class SimpleList {
 
 	/**
 	 * Method to remove integer from array. Remaining integers will shift left,
-	 * count will be reduced accordingly.
+	 * count will be reduced accordingly. If list has >25% empty places, decrease
+	 * size of the list, capping at 1 entry
 	 * 
 	 * @param intToRemove The integer that will be removed
 	 */
 	public void remove(int intToRemove) {
+
+		int newSize;
+
 		for (int iterator = 0; iterator < count; iterator++) {
 			if (list[iterator] == intToRemove) {
 				for (int iterator2 = iterator; iterator2 < count - 1; iterator2++)
@@ -81,9 +104,6 @@ public class SimpleList {
 	public int count() {
 		return count;
 	}
-
-	// toString (): String – Return the list as a String. The elements must be
-	// separated by a space. This means there is no space after the last integer.
 
 	/**
 	 * Method to return elements of the array as a String where elements are
@@ -121,5 +141,42 @@ public class SimpleList {
 			}
 		}
 		return numberLocation;
+	}
+
+	/**
+	 * Returns the first element in the list, returns -1 if list is empty
+	 * 
+	 * @return Returns element at first location of array
+	 */
+	public int first() {
+		int elementFirst = -1;
+
+		if (count > 0) {
+			elementFirst = list[0];
+		}
+		return elementFirst;
+	}
+
+	/**
+	 * Returns the last element in the list, returns -1 if list is empty
+	 * 
+	 * @return Returns element at last location of array
+	 */
+	public int last() {
+		int elementLast = -1;
+
+		if (count > 0) {
+			elementLast = list[count - 1];
+		}
+		return elementLast;
+	}
+
+	/**
+	 * Returns number of elements in array
+	 * 
+	 * @return Returns number of elements in array
+	 */
+	public int size() {
+		return count;
 	}
 } // end of SimpleList class
